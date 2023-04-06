@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+
+	"github.com/dezer32/maze-client/internal/core/logger"
 )
 
 type Authorization struct {
@@ -25,17 +26,17 @@ func NewConfig(cfg string) *Config {
 	v.AutomaticEnv()
 
 	if err := v.ReadInConfig(); err != nil {
-		logrus.WithError(err).Fatal("Can't read config file.")
+		logger.Log.WithError(err).Fatal("Can't read config file.")
 	}
 
 	config := &Config{}
 	if err := v.Unmarshal(config); err != nil {
-		logrus.WithError(err).Fatal("Can't unmarshal config.")
+		logger.Log.WithError(err).Fatal("Can't unmarshal config.")
 	}
 
 	config.Authorization = &Authorization{}
 	if err := v.Unmarshal(config.Authorization); err != nil {
-		logrus.WithError(err).Fatal("Can't unmarshal auth config.")
+		logger.Log.WithError(err).Fatal("Can't unmarshal auth config.")
 	}
 
 	config.viper = v
@@ -49,6 +50,6 @@ func (c *Config) SetToken(authorization *Authorization) {
 	c.viper.Set("AUTHORIZATION_USER", c.Authorization.UserId)
 	err := c.viper.WriteConfig()
 	if err != nil {
-		logrus.WithError(err).Error("Can't save config.")
+		logger.Log.WithError(err).Error("Can't save config.")
 	}
 }

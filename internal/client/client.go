@@ -5,9 +5,8 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/sirupsen/logrus"
-
 	"github.com/dezer32/maze-client/internal/core/config"
+	"github.com/dezer32/maze-client/internal/core/logger"
 )
 
 type Client struct {
@@ -22,7 +21,7 @@ type Client struct {
 func NewClient(cfg *config.Config) *Client {
 	u, err := url.Parse(cfg.Url)
 	if err != nil {
-		logrus.WithError(err).Fatal("Can't parse url.")
+		logger.Log.WithError(err).Fatal("Can't parse url.")
 	}
 
 	return &Client{

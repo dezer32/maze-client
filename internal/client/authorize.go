@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/dezer32/maze-client/internal/core/config"
+	"github.com/dezer32/maze-client/internal/core/logger"
 )
 
 func (c *Client) Authorize() {
@@ -21,13 +22,13 @@ func (c *Client) Authorize() {
 		Password: c.Password,
 	})
 	if err != nil {
-		logrus.WithError(err).Error("Can't marshal json.")
+		logger.Log.WithError(err).Error("Can't marshal json.")
 	}
 
 	reqUrl := c.Url.JoinPath("/maze-api/login/")
 	req, err := http.NewRequest("POST", reqUrl.String(), bytes.NewReader(reqBody))
 	if err != nil {
-		logrus.WithError(err).Error("Can't make request.")
+		logger.Log.WithError(err).Error("Can't make request.")
 	}
 
 	for key, value := range c.Headers {
@@ -36,22 +37,22 @@ func (c *Client) Authorize() {
 
 	resp, err := c.Do(req)
 	if err != nil {
-		logrus.WithError(err).Error("Can't authorize.")
+		logger.Log.WithError(err).Error("Can't authorize.")
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		logrus.WithError(err).Error("Can't read body.")
+		logger.Log.WithError(err).Error("Can't read body.")
 	}
 
 	c.Authorization = &config.Authorization{}
 	err = json.Unmarshal(body, c.Authorization)
 	if err != nil {
-		logrus.WithError(err).Error()
+		logger.Log.WithError(err).Error()
 	}
 
-	logrus.WithFields(logrus.Fields{
+	logger.Log.WithFields(logrus.Fields{
 		"token": fmt.Sprintf(
 			"%s*******%s",
 			string(c.Authorization.Token[0]),

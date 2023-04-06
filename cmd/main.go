@@ -3,22 +3,21 @@ package main
 import (
 	"os"
 
-	"github.com/sirupsen/logrus"
-
 	"github.com/dezer32/maze-client/internal/cli"
+	"github.com/dezer32/maze-client/internal/core/logger"
 )
 
 func main() { os.Exit(run()) }
 
 func run() int {
-	logrus.Info("Running...")
+	logger.Log.Info("Running...")
 
 	cmd := cli.NewCommand()
 	if err := cmd.Execute(); err != nil {
-		logrus.WithError(err).Fatal("Can't run cmd.")
+		logger.Log.WithError(err).Fatal("Can't run cmd.")
 		return 1
 	}
 
-	logrus.Info("Canceled.")
+	logger.Log.Info("Canceled.")
 	return 0
 }
