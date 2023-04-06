@@ -13,7 +13,7 @@ func NewCommand() *cobra.Command {
 	var fromDate time.Time
 	var toDate time.Time
 	from := time.Now().Add(-3 * 24 * time.Hour).Format("2006-01-02")
-	to := time.Now().Add(-24 * time.Hour).Format("2006-01-02")
+	to := time.Now().Format("2006-01-02")
 
 	cmd := &cobra.Command{
 		Use:   "get",
