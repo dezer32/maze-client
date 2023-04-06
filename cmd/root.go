@@ -1,15 +1,15 @@
-package cli
+package cmd
 
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/dezer32/maze-client/internal/cli/authorize"
-	"github.com/dezer32/maze-client/internal/cli/journal"
+	"github.com/dezer32/maze-client/cmd/authorize"
+	"github.com/dezer32/maze-client/cmd/journal"
 )
 
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:           "maze-cli",
+		Use:           "maze-cmd",
 		Short:         "Client for maze api. FxBackOffice.",
 		SilenceErrors: true,
 		SilenceUsage:  true,

@@ -3,7 +3,7 @@ package journal
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/dezer32/maze-client/internal/cli/journal/get"
+	"github.com/dezer32/maze-client/cmd/journal/get"
 )
 
 func NewCommand() *cobra.Command {
