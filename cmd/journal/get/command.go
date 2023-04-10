@@ -12,7 +12,8 @@ import (
 func NewCommand() *cobra.Command {
 	var fromDate time.Time
 	var toDate time.Time
-	from := time.Now().Add(-3 * 24 * time.Hour).Format("2006-01-02")
+	show := []string{"date", "ticket", "title", "comment"}
+	from := time.Now().Add(-1 * 24 * time.Hour).Format("2006-01-02")
 	to := time.Now().Format("2006-01-02")
 
 	cmd := &cobra.Command{
@@ -35,7 +36,7 @@ func NewCommand() *cobra.Command {
 			cfg := container.Config()
 
 			journal := c.Journal(fromDate, toDate)
-			Render(journal, cfg.Authorization.UserId).Render()
+			Render(journal, cfg.Authorization.UserId, show).Render()
 
 		},
 	}
@@ -43,6 +44,7 @@ func NewCommand() *cobra.Command {
 	flags := cmd.Flags()
 	flags.StringVarP(&from, "from", "f", from, "from date")
 	flags.StringVarP(&to, "to", "t", to, "from date")
+	flags.StringSliceVarP(&show, "show", "s", show, "Show column")
 
 	return cmd
 }
